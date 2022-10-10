@@ -7,11 +7,10 @@ public class Player : MonoBehaviour
     //속도
     public int MoveSpeed;
     public int JumpPower;
+        //더블 점프
     public int DJumpPower;
     //위치
     float hAxis;
-    float vAxis;
-    Vector3 movVec;
 
     //컴포넌트
     Rigidbody2D rigid;
@@ -20,11 +19,10 @@ public class Player : MonoBehaviour
 
     //불값
     public bool isJumping;
+    public bool isDJumping;
     bool JDown;
     bool DJump;
-    public bool isDJumping;
-    //죽었나?
-    bool isDie;
+    
 
     //공격
     private Transform bulletPosition;  //총알이 어디서 생성되는가
@@ -89,14 +87,14 @@ public class Player : MonoBehaviour
     {   
         if(JDown && !isJumping)
             { 
-                anim.SetBool("isJumping",true);
+                anim.Play("Jump");
                 isJumping = true;
                 Vector2 jumpVelocity = new Vector2(0,JumpPower);
                 rigid.AddForce (jumpVelocity,ForceMode2D.Impulse); 
             }
         else if(DJump && !isDJumping)
                 {
-                    anim.SetBool("isDJumping",true);
+                    anim.Play("DJump");
                     isDJumping = true;
                     rigid.AddForce(Vector2.up*DJumpPower,ForceMode2D.Impulse); 
                 }
@@ -118,9 +116,7 @@ public class Player : MonoBehaviour
         //무한점프 방지
         if(collision2D.gameObject.tag == "Floor")
         {
-        anim.SetBool("isJumping",false);
         isJumping = false;
-        anim.SetBool("isDJumping",false);
         isDJumping = false;
         }
     }
